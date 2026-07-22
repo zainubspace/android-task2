@@ -29,4 +29,10 @@ class DiceRollerTest {
             )
         }
     }
+
+    // 👇 Add this ONLY for the demo
+    @Test
+    fun demoFailingTest() {
+        assertTrue("Intentional demo failure", false)
+    }
 }
