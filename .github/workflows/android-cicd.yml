@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build Android APK
+    name: Test and Build Android APK
     runs-on: ubuntu-latest
 
     steps:
@@ -24,6 +24,9 @@ jobs:
 
       - name: Give Gradle execute permission
         run: chmod +x gradlew
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --no-daemon
 
       - name: Build debug APK
         run: ./gradlew clean assembleDebug --no-daemon
@@ -41,6 +44,7 @@ jobs:
           VERSION_NAME=$(sed -nE 's/^[[:space:]]*versionName[[:space:]]*=[[:space:]]*"([^"]+)".*/\1/p' app/build.gradle.kts | head -n 1)
 
           echo "Application: Android Task 2" > release/build-info.txt
+          echo "Test Status: Unit tests passed" >> release/build-info.txt
           echo "APK: android-task2-debug.apk" >> release/build-info.txt
           echo "Version Name: ${VERSION_NAME:-unknown}" >> release/build-info.txt
           echo "Version Code: ${VERSION_CODE:-unknown}" >> release/build-info.txt
